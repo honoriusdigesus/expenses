@@ -1,9 +1,10 @@
 import logo from '../assets/react.svg';
+import {Link} from "react-router-dom";
 const Logo = () => {
     return (
-        <div className="navbar-brand">
+        <Link className="navbar-brand" to="/">
             <img src={logo} alt="logo" width="40" height="40"/>
-        </div>
+        </Link>
     );
 };
 export default Logo;
