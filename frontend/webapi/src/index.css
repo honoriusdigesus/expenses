@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap');
+
+body, html {
+  font-family: "Lavishly Yours", sans-serif;
+  font-size: 1.1em;
+}
+
+.app-primary-color{
+    color: #043386;
+}
+
+.app-primary-bg-color{
+  background-color: #0756e3;
+}
+
+.card-body{
+    padding: 0 !important;
+}
+
+.border-bottom-1{
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.card-subtitle{
+    font-size: 1.4em;
+    color: #6c757d;
+}
