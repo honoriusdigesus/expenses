@@ -1,4 +1,6 @@
 import {Expense} from "../model/Expense.ts";
+import CurrencyUtils from "../utils/CurrencyUtils.ts";
+import DateUtils from "../utils/DateUtils.ts";
 
 interface PropsExpenses{
     expenses: Expense[];
@@ -38,12 +40,12 @@ v        <div>
                 <div className="card-title m-0" >
                     <h4>{expense.name}</h4>
                     <span className="fst-italic">
-                        {expense.date}
+                        {DateUtils.getFormatDate(new Date(expense.date))}
                     </span>
                 </div>
                 <div className="card-subtitle text-muted mx-2">
                     <span className="badge rounded-pill app-primary-bg text-white bg-primary">
-                        $ {expense.amount}
+                        {CurrencyUtils.formatToINR(expense.amount)}
                     </span>
                 </div>
             </div>)}
