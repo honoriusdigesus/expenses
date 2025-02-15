@@ -29,4 +29,10 @@ public class ExpenseService implements IExpenseService
         ExpenseEntity optionalExpense = expenseRepository.findByExpenseId(expenseId).orElseThrow(()-> new ResourceNotFoundException("[ExpenseService] Expense not found with id: " + expenseId));
         return modelMapper.map(optionalExpense, ExpenseDTO.class);
     }
+
+    @Override
+    public void deleteExpenseByExpenseId(String expenseId) {
+        ExpenseEntity optionalExpense = expenseRepository.findByExpenseId(expenseId).orElseThrow(()-> new ResourceNotFoundException("[ExpenseService] Expense not found with id: " + expenseId));
+        expenseRepository.delete(optionalExpense);
+    }
 }

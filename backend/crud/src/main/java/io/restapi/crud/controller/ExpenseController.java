@@ -6,10 +6,7 @@ import io.restapi.crud.service.impl.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,4 +33,12 @@ public class ExpenseController {
         ExpenseDTO expense = expenseService.getExpenseByExpenseId(expenseId);
         return modelMapper.map(expense, ExpenseResponse.class);
     }
+
+    @DeleteMapping("/delete/expenses/{expenseId}")
+    public String deleteExpenseById(@PathVariable String expenseId) {
+        log.info("[ExpenseController] API DELETE: Delete expense by id {}", expenseId);
+        expenseService.deleteExpenseByExpenseId(expenseId);
+        return "Expense deleted successfully";
+    }
+    
 }
