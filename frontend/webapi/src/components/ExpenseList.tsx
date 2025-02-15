@@ -1,6 +1,7 @@
 import {Expense} from "../model/Expense.ts";
 import CurrencyUtils from "../utils/CurrencyUtils.ts";
 import DateUtils from "../utils/DateUtils.ts";
+import {Link} from "react-router-dom";
 
 interface PropsExpenses{
     expenses: Expense[];
@@ -36,7 +37,7 @@ v        <div>
 
         <div className="card-body">
             {expenses.map(expense =>
-                <div className="d-flex justify-content-between border-bottom-1 p-3 text-dark" key={expense.expenseId}>
+                <Link className="d-flex justify-content-between border-bottom-1 p-3 text-dark" style={{textDecoration:"none"}} key={expense.expenseId} to={`/view/${expense.expenseId}`}>
                 <div className="card-title m-0" >
                     <h4>{expense.name}</h4>
                     <span className="fst-italic">
@@ -48,7 +49,7 @@ v        <div>
                         {CurrencyUtils.formatToINR(expense.amount)}
                     </span>
                 </div>
-            </div>)}
+            </Link>)}
 
         </div>
     </div>

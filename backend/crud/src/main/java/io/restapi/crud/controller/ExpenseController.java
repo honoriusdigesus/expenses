@@ -30,7 +30,7 @@ public class ExpenseController {
 
     }
 
-    @GetMapping("/expenses/{expenseId}")
+    @GetMapping("/view/expenses/{expenseId}")
     public ExpenseResponse getExpenseById(@PathVariable String expenseId) {
         log.info("[ExpenseController] API GET: Get expense by id {}", expenseId);
         ExpenseDTO expense = expenseService.getExpenseByExpenseId(expenseId);
