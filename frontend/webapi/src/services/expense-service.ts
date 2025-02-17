@@ -8,3 +8,7 @@ export const getExpenses = () => {
 export const getExpenseByExpenseId = (expenseId: string) => {
     return apiClient.get<Expense>(`/view/expenses/${expenseId}`);
 }
+
+export const deleteExpenseExpenseId = (expenseId: string) => {
+    return apiClient.delete(`/delete/expenses/${expenseId}`);
+}
