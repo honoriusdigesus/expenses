@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +35,13 @@ public class ExpenseService implements IExpenseService
     public void deleteExpenseByExpenseId(String expenseId) {
         ExpenseEntity optionalExpense = expenseRepository.findByExpenseId(expenseId).orElseThrow(()-> new ResourceNotFoundException("[ExpenseService] Expense not found with id: " + expenseId));
         expenseRepository.delete(optionalExpense);
+    }
+
+    @Override
+    public ExpenseDTO addExpense(ExpenseDTO expenseDTO) {
+        ExpenseEntity expenseEntity = modelMapper.map(expenseDTO, ExpenseEntity.class);
+        expenseEntity.setExpenseId(UUID.randomUUID().toString());
+        expenseRepository.save(expenseEntity);
+        return expenseDTO;
     }
 }

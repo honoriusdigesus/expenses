@@ -1,11 +1,14 @@
 package io.restapi.crud.controller;
 
 import io.restapi.crud.dto.ExpenseDTO;
+import io.restapi.crud.io.ExpenseRequest;
 import io.restapi.crud.io.ExpenseResponse;
 import io.restapi.crud.service.impl.ExpenseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +42,14 @@ public class ExpenseController {
         log.info("[ExpenseController] API DELETE: Delete expense by id {}", expenseId);
         expenseService.deleteExpenseByExpenseId(expenseId);
         return "Expense deleted successfully";
+    }
+
+    @PostMapping("/add/expenses")
+    public ExpenseResponse addExpense(@Valid @RequestBody ExpenseRequest expenseRequest) {
+        log.info("[ExpenseController] API POST: Add expense");
+        ExpenseDTO expenseDTO = modelMapper.map(expenseRequest, ExpenseDTO.class);
+        expenseService.addExpense(expenseDTO);
+        return modelMapper.map(expenseDTO, ExpenseResponse.class);
     }
     
 }
