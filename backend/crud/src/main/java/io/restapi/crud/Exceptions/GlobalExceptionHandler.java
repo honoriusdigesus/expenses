@@ -2,6 +2,7 @@ package io.restapi.crud.Exceptions;
 
 import io.restapi.crud.io.ErrorObject;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -43,12 +44,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Map<String, Object> errorsResponse = new HashMap<>();
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
-                .stream().map(field->field.getDefaultMessage())
+                .stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
         errorsResponse.put("statusCode", HttpStatus.BAD_REQUEST.value());
         errorsResponse.put("message", errors);
         errorsResponse.put("timestamp", new Date());
-        errorsResponse.put("errorCOde", "VALIDATION_FAILED");
+        errorsResponse.put("errorCode", "VALIDATION_FAILED");
         return new ResponseEntity<Object>(errorsResponse, HttpStatus.BAD_REQUEST);
     }
 }
