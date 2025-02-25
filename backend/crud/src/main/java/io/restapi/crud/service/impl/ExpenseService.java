@@ -38,10 +38,28 @@ public class ExpenseService implements IExpenseService
     }
 
     @Override
-    public ExpenseDTO addExpense(ExpenseDTO expenseDTO) {
+    public ExpenseDTO saveExpenseDetails(ExpenseDTO expenseDTO) {
         ExpenseEntity expenseEntity = modelMapper.map(expenseDTO, ExpenseEntity.class);
         expenseEntity.setExpenseId(UUID.randomUUID().toString());
         expenseRepository.save(expenseEntity);
         return expenseDTO;
+    }
+
+    /**
+     * @param expenseId 
+     * @param expenseDTO
+     * @return
+     */
+    @Override
+    public ExpenseDTO updateExpenseDetails(String expenseId, ExpenseDTO expenseDTO) {
+        ExpenseEntity optionalExpense = expenseRepository.findByExpenseId(expenseId).orElseThrow(()-> new ResourceNotFoundException("[ExpenseService] Expense not found with id: " + expenseId));
+        ExpenseEntity updateExpenseEntity = modelMapper.map(expenseDTO, ExpenseEntity.class);
+        updateExpenseEntity.setId(optionalExpense.getId());
+        updateExpenseEntity.setExpenseId(optionalExpense.getExpenseId());
+        updateExpenseEntity.setCreatedAt(optionalExpense.getCreatedAt());
+        updateExpenseEntity.setUpdatedAt(optionalExpense.getUpdatedAt());
+        updateExpenseEntity = expenseRepository.save(updateExpenseEntity);
+        //Map updateExpenseEntity and return
+        return modelMapper.map(updateExpenseEntity, ExpenseDTO.class);
     }
 }

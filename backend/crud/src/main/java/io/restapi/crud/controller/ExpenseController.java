@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,8 +47,16 @@ public class ExpenseController {
     public ExpenseResponse addExpense(@Valid @RequestBody ExpenseRequest expenseRequest) {
         log.info("[ExpenseController] API POST: Add expense");
         ExpenseDTO expenseDTO = modelMapper.map(expenseRequest, ExpenseDTO.class);
-        expenseService.addExpense(expenseDTO);
+        expenseService.saveExpenseDetails(expenseDTO);
         return modelMapper.map(expenseDTO, ExpenseResponse.class);
+    }
+
+    @PutMapping("/update/expenses/{expenseId}")
+    public ExpenseResponse updateExpense(@PathVariable String expenseId, @Valid @RequestBody ExpenseRequest expenseRequest) {
+        log.info("[ExpenseController] API PUT: Update expense by id {}", expenseId);
+        ExpenseDTO expenseDTO = modelMapper.map(expenseRequest, ExpenseDTO.class);
+        var expense = expenseService.updateExpenseDetails(expenseId, expenseDTO);
+        return modelMapper.map(expense, ExpenseResponse.class);
     }
     
 }
