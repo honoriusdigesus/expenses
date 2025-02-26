@@ -2,15 +2,25 @@ interface Props{
     options: string[];
     name: string;
     id: string;
+    value: string;
     onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     onBlur: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     label: string;
     error?: string;
     touched?: boolean;
-    value?: string;
 }
 
-const MDropdown = ({options, name, id, onChange, onBlur,label, value,error, touched}:Props) => {
+const MDropdown = ({
+                       options,
+                       name,
+                       id,
+                       value,
+                       onChange,
+                       onBlur,
+                       label,
+                       error,
+                       touched
+}:Props) => {
     return (
         <div className="mb-3">
             <label htmlFor={id} className="form-label">
@@ -22,8 +32,9 @@ const MDropdown = ({options, name, id, onChange, onBlur,label, value,error, touc
                 className="form-control"
                 onChange={onChange}
                 onBlur={onBlur}
+                value={value}
             >
-                <option value={value}>Select category</option>
+                <option value="">Select category</option>
                 {options.map((option) => (
                     <option key={option} value={option} label={option}/>
                 ))}

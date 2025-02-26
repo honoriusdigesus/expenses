@@ -46,7 +46,7 @@ const ExpenseDetails = () => {
             {error && <p className="text-danger">{error}</p>}
             <div className="d-flex flex-row-reverse mb-2">
                 <button className="btn btn-danger" onClick={()=>setShowDialog(true)}>Delete</button>
-                <button className="btn btn-primary mx-2">Edit</button>
+                <button className="btn btn-primary mx-2" onClick={()=>navigate(`/edit/${expenseId}`)}>Edit</button>
                 <Link className="btn btn-warning" to="/">Back</Link>
             </div>
             <h3 className="card-header m-3">Expense Details</h3>

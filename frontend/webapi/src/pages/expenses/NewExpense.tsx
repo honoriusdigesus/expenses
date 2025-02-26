@@ -3,24 +3,42 @@ import {Expense} from "../../model/Expense.ts";
 import expenseValidationsSchema from "../../validations/expenseValidationsSchema.ts";
 import MDropdown from "../../components/mDropdown.tsx";
 import {expensesCategories} from "../../utils/AppConstants.ts";
-import {saveOrUpdateExpense} from "../../services/expense-service.ts";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {getExpenseByExpenseId, saveOrUpdateExpense} from "../../services/expense-service.ts";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 
 
 const NewExpense = () => {
 
+    const {expenseId} = useParams<{expenseId:string}>();
     const [error, setError] = useState<string>('');
     const navigate = useNavigate();
+    const [isLoading, setLoader] = useState<boolean>(false);
+    const [initialValues, setInitialValues] = useState<Expense>({
+        name: '',
+        amount: 0,
+        note: '',
+        date: new Date().toISOString().split('T')[0],
+        category: ''
+    });
+
+    useEffect(() => {
+        if (expenseId) {
+            setLoader(true);
+            getExpenseByExpenseId(expenseId)
+                .then(response=>{
+                    if(response && response.data){
+                        setInitialValues(response.data);
+                    }
+                })
+                .catch(error=>setError(error.message))
+                .finally(()=>setLoader(false));
+        }
+    }, [expenseId]);
 
     const formik = useFormik({
-        initialValues: {
-            name: '',
-            amount: 0,
-            note: '',
-            date: new Date().toISOString().split('T')[0],
-            category: ''
-        },
+        initialValues,
+        enableReinitialize: true,
         onSubmit: (values:Expense) => {
             saveOrUpdateExpense(values)
                 .then((response)=>{
@@ -43,6 +61,7 @@ const NewExpense = () => {
                 <form onSubmit={formik.handleSubmit}>
 
                     {error && <p className="text-danger">{error}</p>}
+                    {isLoading && <p>Loading...</p>}
                     <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name</label>
                         <input
@@ -62,10 +81,12 @@ const NewExpense = () => {
                         <input
                             type="text"
                             className="form-control"
-                            id="amount" name="amount"
+                            id="amount"
+                            name="amount"
                             value={formik.values.amount}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+
                         />
                         {formik.touched.amount && formik.errors.amount ? <div className="text-danger fst-italic">{formik.errors.amount}</div> : null}
                     </div>
@@ -91,8 +112,10 @@ const NewExpense = () => {
                             name="date"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
+                            value={formik.values.date}
                         />
-                        {formik.touched.date && formik.errors.date ? <div className="text-danger fst-italic">{formik.errors.date}</div> : null}
+                        {formik.touched.date && formik.errors.date ?
+                            (<div className="text-danger fst-italic">{formik.errors.date}</div>) : null}
                     </div>
 
                     <MDropdown
