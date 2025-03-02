@@ -17,7 +17,7 @@ const Navbar = () => {
                 <div className="d-flex" role="search">
                     {/*Button login y logout*/}
                     <NavLink className="btn btn-outline-primary p-2 mx-2" to="/login">Login</NavLink>
-                    <NavLink className="btn btn-outline-primary p-2" to="/register">Logout</NavLink>
+                    <NavLink className="btn btn-outline-primary p-2" to="/register">Register</NavLink>
                     <button className="navbar-toggler mx-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                             aria-controls="navbarText" aria-expanded="true" aria-label="Toggle navigation">
                         <FaBars />
